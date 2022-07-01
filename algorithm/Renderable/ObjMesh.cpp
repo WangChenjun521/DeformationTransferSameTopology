@@ -5,6 +5,8 @@
 #include <algorithm>
 #include "bmesh.h"
 #include <queue>
+#include <string>
+#include <string.h>
 #ifdef OBJMESH_ENABLE_GL
 #include <GL\glut.h>
 #include "freeImage\CFreeImage.h"
@@ -49,8 +51,8 @@ void ObjMesh::cloneFrom(const ObjMesh* rhs)
 
 	for (int i = 0; i < 2; i++)
 		boundingBox[i] = rhs->boundingBox[i];
-	strcpy_s(scene_filename, rhs->scene_filename);
-	strcpy_s(material_filename, rhs->material_filename);
+	strcpy(scene_filename, rhs->scene_filename);
+	strcpy(material_filename, rhs->material_filename);
 
 	requireRenderUpdate();
 	// reconstruct bmesh, prevent multi-reference.
@@ -851,8 +853,8 @@ bool ObjMesh::subdiv_loop_to(ObjMesh& result)
 		return false;
 
 	result.material_list.assign(material_list.begin(), material_list.end());
-	strcpy_s(result.scene_filename, scene_filename);
-	strcpy_s(result.material_filename, material_filename);
+	strcpy(result.scene_filename, scene_filename);
+	strcpy(result.material_filename, material_filename);
 
 	BMesh& bmesh = *get_bmesh(m_bmesh_triagulate);
 
@@ -882,23 +884,23 @@ bool ObjMesh::subdiv_loop_to(ObjMesh& result)
 		verts[2] = bmesh.vofe_first(edges[2]) == verts[0] ? bmesh.vofe_last(edges[2]) : bmesh.vofe_first(edges[2]);
 
 		const ObjMesh::obj_face& oriFace = face_list[f->getIndex()];
-		ObjMesh::obj_face f = oriFace;
-		f.vertex_index[0] = verts[0]->getIndex();
-		f.vertex_index[1] = edges[0]->getIndex() + nVerts;
-		f.vertex_index[2] = edges[2]->getIndex() + nVerts;
-		result.face_list.push_back(f);
-		f.vertex_index[0] = verts[1]->getIndex();
-		f.vertex_index[1] = edges[1]->getIndex() + nVerts;
-		f.vertex_index[2] = edges[0]->getIndex() + nVerts;
-		result.face_list.push_back(f);
-		f.vertex_index[0] = verts[2]->getIndex();
-		f.vertex_index[1] = edges[2]->getIndex() + nVerts;
-		f.vertex_index[2] = edges[1]->getIndex() + nVerts;
-		result.face_list.push_back(f);
-		f.vertex_index[0] = edges[0]->getIndex() + nVerts;
-		f.vertex_index[1] = edges[1]->getIndex() + nVerts;
-		f.vertex_index[2] = edges[2]->getIndex() + nVerts;
-		result.face_list.push_back(f);
+		ObjMesh::obj_face f_ori = oriFace;
+		f_ori.vertex_index[0] = verts[0]->getIndex();
+		f_ori.vertex_index[1] = edges[0]->getIndex() + nVerts;
+		f_ori.vertex_index[2] = edges[2]->getIndex() + nVerts;
+		result.face_list.push_back(f_ori);
+		f_ori.vertex_index[0] = verts[1]->getIndex();
+		f_ori.vertex_index[1] = edges[1]->getIndex() + nVerts;
+		f_ori.vertex_index[2] = edges[0]->getIndex() + nVerts;
+		result.face_list.push_back(f_ori);
+		f_ori.vertex_index[0] = verts[2]->getIndex();
+		f_ori.vertex_index[1] = edges[2]->getIndex() + nVerts;
+		f_ori.vertex_index[2] = edges[1]->getIndex() + nVerts;
+		result.face_list.push_back(f_ori);
+		f_ori.vertex_index[0] = edges[0]->getIndex() + nVerts;
+		f_ori.vertex_index[1] = edges[1]->getIndex() + nVerts;
+		f_ori.vertex_index[2] = edges[2]->getIndex() + nVerts;
+		result.face_list.push_back(f_ori);
 	} // end for all faces
 
 	// compute edge verts
@@ -1134,7 +1136,7 @@ void ObjMesh::saveObj(const char* path)const
 {
 	FILE* pFile = fopen(path, "w");
 	if (!pFile)
-		throw std::exception((std::string("Open file failed: ") + path).c_str());
+		throw std::logic_error((std::string("Open file failed: ") + path).c_str());
 
 	if (material_list.size() > 0)
 		fprintf(pFile, "mtllib %s\n", material_filename);

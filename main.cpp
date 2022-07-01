@@ -4,6 +4,8 @@
 #include <stdio.h>
 #include "MeshTransfer.h"
 #include "Renderable/ObjMesh.h"
+#include <Eigen/Core>
+#include <omp.h>
 
 static void objMeshGetFace(const ObjMesh& mesh, std::vector<MeshTransfer::Int3>& triangles)
 {

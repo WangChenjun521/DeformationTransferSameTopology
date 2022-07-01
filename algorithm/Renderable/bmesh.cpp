@@ -6,6 +6,7 @@
 #include <set>
 #include <algorithm>
 #include <queue>
+#include <float.h>
 //#define OBJMESH_ENABLE_GL
 #ifdef OBJMESH_ENABLE_GL
 #include <GL\glut.h>

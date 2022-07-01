@@ -1,0 +1,6 @@
+g++ -Wl,-O1 -o deformation main.o MeshTransfer.o bmesh.o ObjMesh.o   -lQt5Gui -lQt5Core -lGL -lpthread 
+main.o：在函数‘main’中：
+main.cpp:(.text.startup+0x531)：对‘omp_get_thread_num’未定义的引用
+collect2: error: ld returned 1 exit status
+Makefile:460: recipe for target 'deformation' failed
+make: *** [deformation] Error 1

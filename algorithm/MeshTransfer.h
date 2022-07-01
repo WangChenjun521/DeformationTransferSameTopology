@@ -1,7 +1,7 @@
 #pragma once
 #include <vector>
-#include <eigen/Dense>
-#include <eigen/Sparse>
+#include <Eigen/Dense>
+#include <Eigen/Sparse>
 
 // Deformation Transfer
 // Input:

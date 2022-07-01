@@ -106,7 +106,7 @@ static void FastTransGivenStructure(const Eigen::SparseMatrix<T>& A, Eigen::Spar
 		positions[i] = At.outerIndexPtr()[i];
 	for (int j = 0; j<A.outerSize(); ++j)
 	{
-		for (Eigen::SparseMatrix<T>::InnerIterator it(A, j); it; ++it)
+		for (typename Eigen::SparseMatrix<T>::InnerIterator it(A, j); it; ++it)
 		{
 			int i = it.index();
 			int pos = positions[i]++;
@@ -126,12 +126,12 @@ void FastAtAGivenStructure(const Eigen::SparseMatrix<T>& A, const Eigen::SparseM
 
 	for (int j = 0; j<AtA.outerSize(); j++)
 	{
-		for (Eigen::SparseMatrix<T>::InnerIterator it_A(A, j); it_A; ++it_A)
+		for ( typename Eigen::SparseMatrix<T>::InnerIterator it_A(A, j); it_A; ++it_A)
 		{
 			int k = it_A.index();
 			real v_A = it_A.value();
 
-			for (Eigen::SparseMatrix<T>::InnerIterator it_At(At, k); it_At; ++it_At)
+			for ( typename Eigen::SparseMatrix<T>::InnerIterator it_At(At, k); it_At; ++it_At)
 			{
 				int i = it_At.index();
 				real v_At = it_At.value();
@@ -145,7 +145,7 @@ void FastAtAGivenStructure(const Eigen::SparseMatrix<T>& A, const Eigen::SparseM
 			}//end for it_At
 		}//end for it_A
 
-		for (Eigen::SparseMatrix<T>::InnerIterator it(AtA, j); it; ++it)
+		for ( typename Eigen::SparseMatrix<T>::InnerIterator it(AtA, j); it; ++it)
 		{
 			int i = it.index();
 			it.valueRef() = Tmp[i];

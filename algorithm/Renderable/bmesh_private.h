@@ -68,7 +68,7 @@
 #define M_PI        3.14159265358979323846f
 #endif
 #define SMALL_NUMBER 1e-8f
-#define MINLINE static __forceinline
+#define MINLINE static inline
 #define BM_NGON_STACK_SIZE 32
 #define BM_LOOPS_OF_FACE 11
 #ifndef M_SQRT2
